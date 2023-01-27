@@ -1,0 +1,36 @@
+version: "3.9"
+
+volumes:
+  mongodb-server:
+
+services:
+  private-api:
+    container_name: private-api
+    depends_on:
+      - mongodb-server
+    build: ../private-api
+    ports:
+      - "8000:8000" # private-api
+    restart: unless-stopped
+
+  vault-api:
+    container_name: vault-api
+    depends_on:
+      - mongodb-server
+    build: ../vault
+    ports:
+      - "8001:8001" # vault-api
+    restart: unless-stopped
+
+  mongodb-server:
+    container_name: mongodb-server
+    image: "mongo:6.0.3"
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-server:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=aria
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=aria
+    restart: unless-stopped
