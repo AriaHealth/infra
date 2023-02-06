@@ -10,7 +10,7 @@ services:
       - mongodb-server
     build: ../private-api
     ports:
-      - "8000:8000" # private-api
+      - "8000:80" # private-api
     restart: unless-stopped
 
   vault-api:
@@ -19,7 +19,7 @@ services:
       - mongodb-server
     build: ../vault
     ports:
-      - "8001:8001" # vault-api
+      - "8001:80" # vault-api
     restart: unless-stopped
 
   mongodb-server:
